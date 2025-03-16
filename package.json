@@ -1,0 +1,37 @@
+{
+  "name": "meadow-movienight",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "inngest-cli dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghostmanexp/meadow-movienight.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghostmanexp/meadow-movienight/issues"
+  },
+  "homepage": "https://github.com/ghostmanexp/meadow-movienight#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "inngest-cli": "^1.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "axios": "^1.8.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "inngest": "^3.32.7",
+    "resend": "^4.1.2"
+  }
+}
