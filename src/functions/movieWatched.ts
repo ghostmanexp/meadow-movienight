@@ -71,17 +71,20 @@ export default inngest.createFunction(
     const emailResult = await step.run("send-email", async () => {
       try {
         console.log(`📧 Sending email to ${recipient_email}`);
-        const emailResponse = await resend.emails.send({
+        const { data, error } = await resend.emails.send({
           from: `Movie Info <${fromEmail}>`,
           to: recipient_email,
           subject: `Movie Summary: ${movieData.Title}`,
           html: `<h2>${movieData.Title}</h2><p>${movieData.Plot}</p>`,
         });
 
-        console.log("✅ Email Response from Resend:", emailResponse);
-        return { success: true, emailId: emailResponse.data?.id };
+        if (error) {
+          return console.error(`❌ Send email has fail: ${error.message}`);
+        }
+
+        console.log("✅ Email Response from Resend:", data);
+        return { success: true, emailId: data?.id };
       } catch (error) {
-        // For email sending errors, we want to retry with increasing backoff
         console.error('Error sending email:', error);
         throw new RetryAfterError('Failed to send email, will retry', 60);
       }
