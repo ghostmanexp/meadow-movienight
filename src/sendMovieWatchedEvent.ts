@@ -7,7 +7,7 @@ const event: MovieWatchedEvent = {
   name: "meadow_api/movie.watched",
   data: {
     movie_title: "The Matrix",
-    recipient_email: "ghostman@ghostman.com.br",
+    recipient_email: "clem@test.com",
   },
 };
 
