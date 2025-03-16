@@ -6,7 +6,6 @@ import { OmdbMovieResponse } from "../types/omdb";
 import 'dotenv/config';
 
 const inngest = new Inngest({ id: "Meadow Movie Handler" });
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default inngest.createFunction(
   {
@@ -25,6 +24,15 @@ export default inngest.createFunction(
       return key;
     })
 
+    const resendApiKey = await step.run("validates-resent-api-key", () => {
+      const resendKey = process.env.RESEND_API_KEY;
+      if (!resendKey) {
+        throw new Error("RESEND_API_KEY environment variable is not set");
+      }
+      return resendKey;
+    });
+    const resend = new Resend(resendApiKey);
+
     const fromEmail = await step.run("validate-from-email", () => {
       const email = process.env.FROM_EMAIL;
       if (!email) {
@@ -36,15 +44,17 @@ export default inngest.createFunction(
     const movieData = await step.run("fetch-movie-data", async () => {
       try {
         console.log(`🔍 Fetching movie data for "${movie_title}" from OMDb API`);
-        const movieResponse = await axios.get(`https://www.omdbapi.com/`, {
+        const movieResponse = await axios.get<OmdbMovieResponse>(`https://www.omdbapi.com/`, {
           params: {
             apikey: omdbApiKey,
             t: movie_title,
             plot: "full",
           },
+          timeout: 5000,
+          validateStatus: (status) => status < 500,
         });
 
-        const movieData = movieResponse.data as OmdbMovieResponse;
+        const movieData = movieResponse.data;
 
         if (movieData.Response === "False") {
           console.error(`❌ Movie "${movie_title}" not found: ${movieData.Error}`);
@@ -54,7 +64,7 @@ export default inngest.createFunction(
         return movieData;
       } catch (error) {
         console.error('Error fetching movie data:', error);
-        throw error;
+        throw new RetryAfterError('Failed to fetch movie data, will retry', 60);
       }
     });
 
