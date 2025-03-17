@@ -74,3 +74,14 @@ const event: MovieWatchedEvent = {
   },
 };
  ```
+
+ ## Sugestion for improvements
+
+ Create a simple React page for triggering events and showing the responses.
+ The page must contain a form with the following fields:
+
+- Movie title
+- Recipient email
+- Submit button
+
+After submitting the form, the page must show the response from the Inngest function.
