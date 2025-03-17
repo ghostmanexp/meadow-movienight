@@ -11,7 +11,6 @@ const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
-// clearly serve inngest functions via express
 app.use(serve({ client: inngest, functions: [movieWatchedFunction] }));
 
 app.listen(3000, () => {
