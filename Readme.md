@@ -37,7 +37,8 @@ npm install
 OMDB_API_KEY=your_omdb_api_key
 RESEND_API_KEY=your_resend_api_key
 FROM_EMAIL=your_sender_email@example.com
-PORT=3000
+
+- Hint - take a look at .env.example
 
 ## Running the Application
 
@@ -46,8 +47,6 @@ PORT=3000
 ```bash
 npm run dev
  ```
-
-This will start the server at http://localhost:3000 .
 
 2. Start the Inngest CLI:
 
